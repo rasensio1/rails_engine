@@ -1,3 +1,3 @@
 class Invoice < ActiveRecord::Base
-  belongs_to :customer_id
+  belongs_to :customer
 end
