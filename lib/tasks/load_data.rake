@@ -1,12 +1,44 @@
-task :load_data do
-  byebug
-  file = File.readlines('data/items.csv').shift
+require 'csv'
 
-  file.each do |data_line|
-    line = data_ine.chomp
+namespace :load_data do
+  task :load_data => :environment do
 
-    Item.create(name: line[1], description: line[2],
-                unit_price: line[3], merchant_id: line[4],
-                created_at: line[4], updated_at: line[5])
+    file = File.read('data/merchants.csv')
+    csv = CSV.parse(file, :headers => true)
+    csv.each do |row|
+        Merchant.create!(row.to_hash)
+    end
+
+
+    file = File.read('data/items.csv')
+    csv = CSV.parse(file, :headers => true)
+    csv.each do |row|
+        Item.create!(row.to_hash)
+    end
+
+    file = File.read('data/customers.csv')
+    csv = CSV.parse(file, :headers => true)
+    csv.each do |row|
+        Customer.create!(row.to_hash)
+    end
+
+    file = File.read('data/invoices.csv')
+    csv = CSV.parse(file, :headers => true)
+    csv.each do |row|
+        Invoice.create!(row.to_hash)
+    end
+
+    file = File.read('data/invoice_items.csv')
+    csv = CSV.parse(file, :headers => true)
+    csv.each do |row|
+        InvoiceItem.create!(row.to_hash)
+    end
+
+    file = File.read('data/transactions.csv')
+    csv = CSV.parse(file, :headers => true)
+    csv.each do |row|
+        Transaction.create!(row.to_hash)
+    end
+
   end
 end
