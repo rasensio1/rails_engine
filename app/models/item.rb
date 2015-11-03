@@ -5,8 +5,8 @@ class Item < ActiveRecord::Base
 
   validates :name, :description, :unit_price, :merchant_id, presence: true
 
-  def price 
-    unit_price/100.00
+  def price
+    unit_price / 100.00
   end
 
   def as_json(options = {})
