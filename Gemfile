@@ -13,8 +13,12 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'responders'
 
 group :development, :test do
-  gem 'database_cleaner'
   gem 'byebug'
+end
+
+group :test do
+  gem 'simplecov'
+  gem 'database_cleaner'
 end
 
 group :development do
