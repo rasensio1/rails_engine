@@ -9,6 +9,6 @@ class InvoiceItem < ActiveRecord::Base
   end
 
   def as_json(options = {})
-     super(options.merge except: [:unit_price], methods: [:price])
+    super(options.merge except: [:unit_price], methods: [:price])
   end
 end
