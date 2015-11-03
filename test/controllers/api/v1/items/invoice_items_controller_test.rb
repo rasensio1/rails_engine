@@ -2,8 +2,7 @@ require 'test_helper'
 
 class Api::V1::Items::InvoiceItemsControllerTest < ActionController::TestCase
   test "#index" do
-    item= create_items
-
+    item = create_items
     get :index, id: item.id
 
     assert_equal 2, json.count
