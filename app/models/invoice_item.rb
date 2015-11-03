@@ -4,7 +4,7 @@ class InvoiceItem < ActiveRecord::Base
 
   validates :quantity, :unit_price, :item_id, :invoice_id, presence: true
 
-  def price 
+  def price
     unit_price/100.00
   end
 
