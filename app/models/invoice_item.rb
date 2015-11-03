@@ -3,4 +3,8 @@ class InvoiceItem < ActiveRecord::Base
   belongs_to :invoice
 
   validates :quantity, :unit_price, :item_id, :invoice_id, presence: true
+
+  def price 
+    unit_price/100.00
+  end
 end
