@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
   def find_by_param
     data = params.first
     { format_search(data[0]) => format_param(data[1]) }
+    #use strong params
   end
 
   private
