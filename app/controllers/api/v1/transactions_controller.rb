@@ -8,4 +8,8 @@ class Api::V1::TransactionsController < ApplicationController
   def show 
     respond_with Transaction.find(params[:id])
   end
+  
+  def find
+    respond_with Transaction.find_by(find_by_param)
+  end
 end
