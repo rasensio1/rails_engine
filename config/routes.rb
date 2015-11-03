@@ -28,6 +28,14 @@ Rails.application.routes.draw do
       get "/transactions/find", to: "transactions#find"
       resources :transactions, only: [:index, :show]
 
+      namespace :invoices do
+        get "/:id/transactions", to: "transactions#index"
+        get "/:id/invoice_items", to: "invoice_items#index"
+        get "/:id/items", to: "items#index"
+        get "/:id/customer", to: "customers#show"
+        get "/:id/merchant", to: "merchant#show"
+      end
+
       get "/customers/find_all", to: "customers#find_all"
       get "/customers/find", to: "customers#find"
       resources :customers, only: [:index, :show]
