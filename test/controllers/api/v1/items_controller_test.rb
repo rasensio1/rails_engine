@@ -3,9 +3,7 @@ require 'test_helper'
 class Api::V1::ItemsControllerTest < ActionController::TestCase
   test "#index" do
     create_merchants
-    Item.create(name: "Hi", description: "the best", unit_price: 1234, merchant_id: 1)
-    Item.create(name: "Yeah", description: "also good", unit_price: 1234, merchant_id: 1)
-    Item.create(name: "YO", description: "best", unit_price: 1234, merchant_id: 2)
+    item = create_items
     items = Item.all
     get :index
 
@@ -15,9 +13,7 @@ class Api::V1::ItemsControllerTest < ActionController::TestCase
 
   test "#show" do
     create_merchants
-    item = Item.create(name: "Hi", description: "the best", unit_price: 1234, merchant_id: 1)
-    Item.create(name: "Yeah", description: "also good", unit_price: 1234, merchant_id: 1)
-    Item.create(name: "YO", description: "best", unit_price: 1234, merchant_id: 2)
+    item = create_items
     get :show, id: item.id
 
     assert_equal item.id, json["id"]
@@ -25,9 +21,7 @@ class Api::V1::ItemsControllerTest < ActionController::TestCase
 
   test "#find" do
     create_merchants
-    item = Item.create(name: "Hi", description: "the best", unit_price: 1234, merchant_id: 1)
-    Item.create(name: "Yeah", description: "also good", unit_price: 1234, merchant_id: 1)
-    Item.create(name: "YO", description: "best", unit_price: 1234, merchant_id: 2)
+    item = create_items
 
     get :find, name: item.name
 
@@ -36,9 +30,7 @@ class Api::V1::ItemsControllerTest < ActionController::TestCase
 
   test "#find_all" do
     create_merchants
-    item = Item.create(name: "Hi", description: "the best", unit_price: 1234, merchant_id: 1)
-    Item.create(name: "Yeah", description: "also good", unit_price: 1234, merchant_id: 1)
-    Item.create(name: "YO", description: "best", unit_price: 1234, merchant_id: 2)
+    item = create_items
 
     get :find_all, merchant_id: item.merchant_id
 
@@ -48,5 +40,11 @@ class Api::V1::ItemsControllerTest < ActionController::TestCase
   def create_merchants
     Merchant.create(id: 1, name: "yeah")
     Merchant.create(id: 2, name: "ok")
+  end
+
+  def create_items
+    Item.create(name: "Yeah", description: "also good", unit_price: 1234, merchant_id: 1)
+    Item.create(name: "YO", description: "best", unit_price: 1234, merchant_id: 2)
+    Item.create(name: "Hi", description: "the best", unit_price: 1234, merchant_id: 1)
   end
 end
