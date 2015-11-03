@@ -10,15 +10,15 @@ class ApplicationController < ActionController::Base
   end
 
   private
-    def set_default_response_format
-      request.format = :json
-    end
+  def set_default_response_format
+    request.format = :json
+  end
 
-    def format_param(word)
-      word.split.map(&:capitalize).join(' ')
-    end
+  def format_param(word)
+    word.split.map(&:capitalize).join(' ')
+  end
 
-    def format_search(word)
-      word.downcase
-    end
+  def format_search(word)
+    word.downcase
+  end
 end
