@@ -12,4 +12,8 @@ class Api::V1::CustomersController < ApplicationController
   def find
     respond_with Customer.find_by(find_by_param)
   end
+
+  def find_all
+    respond_with Customer.where(find_by_param)
+  end
 end
