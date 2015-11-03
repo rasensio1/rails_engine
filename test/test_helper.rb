@@ -18,5 +18,4 @@ class ActiveSupport::TestCase
     JSON.parse(response.body)
   end
 
-  # Add more helper methods to be used by all tests here...
 end

@@ -14,8 +14,8 @@ class Api::V1::CustomersControllerTest < ActionController::TestCase
 
   test "#show" do
     cust = Customer.create(first_name: "hi", last_name: "hi")
-    Customer.create(first_name: "yeah")
-    Customer.create(first_name: "yo")
+    Customer.create(first_name: "yo", last_name: "yo")
+    Customer.create(first_name: "yeah", last_name: "yeah")
     get :show, id: cust.id
 
     assert_equal cust.id, json["id"]
@@ -23,8 +23,8 @@ class Api::V1::CustomersControllerTest < ActionController::TestCase
 
   test "#find" do
     cust = Customer.create(first_name: "Hi", last_name: "Hi")
-    Customer.create(first_name: "yeah")
-    Customer.create(first_name: "yo")
+    Customer.create(first_name: "yo", last_name: "yo")
+    Customer.create(first_name: "yeah", last_name: "yeah")
     get :find, first_name: cust.first_name
 
     assert_equal cust.id, json["id"]
@@ -33,8 +33,8 @@ class Api::V1::CustomersControllerTest < ActionController::TestCase
   test "#find_all" do
     cust = Customer.create(first_name: "Hi", last_name: "Hi")
     Customer.create(first_name: "Hi", last_name: "YOYO")
-    Customer.create(first_name: "yeah")
-    Customer.create(first_name: "yo")
+    Customer.create(first_name: "yo", last_name: "yo")
+    Customer.create(first_name: "yeah", last_name: "yeah")
     get :find_all, first_name: cust.first_name
 
     assert_equal 2, json.count
