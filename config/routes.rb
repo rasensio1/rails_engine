@@ -1,56 +1,36 @@
 Rails.application.routes.draw do
-  # The priority is based upon order of creation: first created -> highest priority.
-  # See how all your routes lay out with "rake routes".
+  namespace :api do
+    namespace :v1 do
+      get "/:object/random", to: "random#show", defaults: {format: :json}
 
-  # You can have the root of your site routed with "root"
-  # root 'welcome#index'
+      get "/merchants/find_all", to: "merchants#find_all"
+      get "/merchants/find", to: "merchants#find"
+      resources :merchants, only: [:index, :show]
 
-  # Example of regular route:
-  #   get 'products/:id' => 'catalog#view'
+      namespace :merchants do
+        get "/:id/items", to: "items#index"
+      end
 
-  # Example of named route that can be invoked with purchase_url(id: product.id)
-  #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
+      get "/items/find_all", to: "items#find_all"
+      get "/items/find", to: "items#find"
+      resources :items, only: [:index, :show]
 
-  # Example resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :products
+      get "/invoice_items/find_all", to: "invoice_items#find_all"
+      get "/invoice_items/find", to: "invoice_items#find"
+      resources :invoice_items, only: [:index, :show]
 
-  # Example resource route with options:
-  #   resources :products do
-  #     member do
-  #       get 'short'
-  #       post 'toggle'
-  #     end
-  #
-  #     collection do
-  #       get 'sold'
-  #     end
-  #   end
+      get "/invoices/find_all", to: "invoices#find_all"
+      get "/invoices/find", to: "invoices#find"
+      resources :invoices, only: [:index, :show]
 
-  # Example resource route with sub-resources:
-  #   resources :products do
-  #     resources :comments, :sales
-  #     resource :seller
-  #   end
+      get "/transactions/find_all", to: "transactions#find_all"
+      get "/transactions/find", to: "transactions#find"
+      resources :transactions, only: [:index, :show]
 
-  # Example resource route with more complex sub-resources:
-  #   resources :products do
-  #     resources :comments
-  #     resources :sales do
-  #       get 'recent', on: :collection
-  #     end
-  #   end
+      get "/customers/find_all", to: "customers#find_all"
+      get "/customers/find", to: "customers#find"
+      resources :customers, only: [:index, :show]
+    end
+  end
 
-  # Example resource route with concerns:
-  #   concern :toggleable do
-  #     post 'toggle'
-  #   end
-  #   resources :posts, concerns: :toggleable
-  #   resources :photos, concerns: :toggleable
-
-  # Example resource route within a namespace:
-  #   namespace :admin do
-  #     # Directs /admin/products/* to Admin::ProductsController
-  #     # (app/controllers/admin/products_controller.rb)
-  #     resources :products
-  #   end
 end
