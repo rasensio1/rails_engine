@@ -6,7 +6,7 @@ class Api::V1::ItemsController < ApplicationController
   end
 
   def show
-    respond_with Item.find(params[:id])
+    respond_with Item.find(params[:id]).to_json(methods: :price, except: :unit_price)
   end
 
   def find
