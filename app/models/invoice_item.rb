@@ -7,4 +7,8 @@ class InvoiceItem < ActiveRecord::Base
   def price 
     unit_price/100.00
   end
+
+  def as_json(options = {})
+     super(options.merge except: [:unit_price], methods: [:price])
+  end
 end
