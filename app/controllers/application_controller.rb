@@ -6,11 +6,19 @@ class ApplicationController < ActionController::Base
 
   def find_by_param
     data = params.first
-    { data[0] => data[1] }
+    { format_search(data[0]) => format_param(data[1]) }
   end
 
   private
     def set_default_response_format
       request.format = :json
+    end
+
+    def format_param(word)
+      word.split.map(&:capitalize).join(' ')
+    end
+
+    def format_search(word)
+      word.downcase
     end
 end
