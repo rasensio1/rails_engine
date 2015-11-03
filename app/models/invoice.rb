@@ -4,4 +4,6 @@ class Invoice < ActiveRecord::Base
 
   has_many :transactions
   has_many :invoice_items
+
+  validates :customer_id, :merchant_id, presence: true
 end
