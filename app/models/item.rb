@@ -1,4 +1,6 @@
 class Item < ActiveRecord::Base
+  default_scope { order('id') }
+
   belongs_to :merchant
   has_many :invoice_items
   has_many :invoices, through: :invoice_items
@@ -7,7 +9,7 @@ class Item < ActiveRecord::Base
 
   def self.most_revenue(quantity)
     select("items.*, sum(invoice_items.quantity * invoice_items.unit_price) AS revenue").
-    joins(:invoice_items).uniq.merge(InvoiceItem.successful).
+    joins(:invoice_items).
     group("items.id").
     order("revenue DESC").limit(quantity)
   end
