@@ -7,4 +7,10 @@ class Invoice < ActiveRecord::Base
   has_many :items, through: :invoice_items
 
   validates :customer_id, :merchant_id, presence: true
+
+  def revenue
+    invoice_items.reduce(0) do |agg, i_item|
+      agg += i_item.unit_price * i_item.quantity
+    end
+  end
 end

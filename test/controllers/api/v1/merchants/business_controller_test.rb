@@ -1,23 +1,15 @@
 require 'test_helper'
 
-class MerchantTest < ActiveSupport::TestCase
-   test "is valid" do
-     merch = Merchant.new(name: "Ryan's Cafe")
+class Api::V1::Merchants::BusinessControllerTest < ActionController::TestCase
 
-     assert merch.valid?
-   end
+  test "#revenue" do
+    merch = create_merchant_1
 
-   test "is invalid without a name" do
-     merch = Merchant.new()
+    get :revenue, id: merch.id
 
-     refute merch.valid?
-   end
-
-   test "can get total revenue" do
-     merchant_1 = create_merchant_1
-
-     assert_equal 800, Merchant.revenue(merchant_1.id)
-   end
+    assert_response :success
+    assert_equal 800, json.first["revenue"]
+  end
 
    def create_merchant_1
      m = Merchant.create(name: "First")
@@ -39,5 +31,4 @@ class MerchantTest < ActiveSupport::TestCase
      Transaction.create(invoice_id: i3.id, result: "failed")
      m
    end
-   
 end
