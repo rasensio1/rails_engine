@@ -45,12 +45,16 @@ class Api::V1::Merchants::BusinessControllerTest < ActionController::TestCase
    end
 
    def create_merchant_2
-     m = Merchant.create(name: "First")
-     c = Customer.create(first_name: "Hi", last_name: "YOYO")
-     i = Invoice.create(customer_id: c1.id, merchant_id: m.id)
+     m = Merchant.create(name: "Another")
+     c = Customer.create(first_name: "John", last_name: "YOYO")
+     i = Invoice.create(customer_id: c.id, merchant_id: m.id)
      item = Item.create(name: "item", description: "ok", unit_price: 100, merchant_id: m.id)
-     InvoiceItem.create(quantity: 1, unit_price: 300, item_id: item.id, invoice_id: i1.id)
+     InvoiceItem.create(quantity: 1, unit_price: 300, item_id: item.id, invoice_id: i.id)
      Transaction.create(invoice_id: i.id, result: "success")
      m
+   end
+
+   def create_merchant_3
+     Merchant.create(name: "Brian")
    end
 end
