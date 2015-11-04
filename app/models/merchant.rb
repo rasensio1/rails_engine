@@ -9,6 +9,7 @@ class Merchant < ActiveRecord::Base
   def self.revenue(id)
     InvoiceItem.joins(:invoice)
                 .joins(:transactions)
+                .where("transactions.result" => "success")
                 .joins(:merchants).where("merchants.id" => id)
                 .sum("quantity * unit_price")
   end
