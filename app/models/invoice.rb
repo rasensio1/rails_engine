@@ -8,6 +8,8 @@ class Invoice < ActiveRecord::Base
 
   validates :customer_id, :merchant_id, presence: true
 
+  scope :successful, -> { joins(:transactions).where("transactions.result" => "success") }
+
   def revenue
     invoice_items.reduce(0) do |agg, i_item|
       agg += i_item.unit_price * i_item.quantity

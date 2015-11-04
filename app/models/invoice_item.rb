@@ -6,7 +6,5 @@ class InvoiceItem < ActiveRecord::Base
 
   validates :quantity, :unit_price, :item_id, :invoice_id, presence: true
 
-  def price
-    unit_price/100.00
-  end
+  scope :successful, -> { joins(:transactions).where("transactions.result" => "success") }
 end

@@ -1,12 +1,12 @@
 require 'test_helper'
 
 class Api::V1::Items::BusinessControllerTest < ActionController::TestCase
-  test "#index" do
+  test "#most_revenue" do
     create_items
-    get :most_revenue
+    get :most_revenue, quantity: 1
 
     assert_response :success
-    assert_equal "Yo", json.first["name"]
+    assert_equal "YO", json.first["name"]
   end
 
   def create_items
