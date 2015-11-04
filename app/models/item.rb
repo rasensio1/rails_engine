@@ -5,10 +5,6 @@ class Item < ActiveRecord::Base
 
   validates :name, :description, :unit_price, :merchant_id, presence: true
 
-  def price
-    unit_price / 100.00
-  end
-
   def self.most_revenue
     #filter for successful transactions
      select("items.*, sum(invoice_items.quantity * invoice_items.unit_price) AS revenue").
