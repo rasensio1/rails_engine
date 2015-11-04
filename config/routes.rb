@@ -18,12 +18,13 @@ Rails.application.routes.draw do
 
       get "/items/find_all", to: "items#find_all"
       get "/items/find", to: "items#find"
-      resources :items, only: [:index, :show]
       namespace :items do
         get "/:id/invoice_items", to: "invoice_items#index"
         get "/:id/merchant", to: "merchant#show"
         get "most_revenue", to: "business#most_revenue"
+        get "most_items", to: "business#most_items"
       end
+      resources :items, only: [:index, :show]
 
       get "/invoice_items/find_all", to: "invoice_items#find_all"
       get "/invoice_items/find", to: "invoice_items#find"
