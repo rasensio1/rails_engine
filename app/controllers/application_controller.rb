@@ -16,7 +16,11 @@ class ApplicationController < ActionController::Base
   end
 
   def format_param(word)
-    word.split.map(&:capitalize).join(' ')
+    if word != "shipped" && word != "success" && word != "failed"
+      word.split.map(&:capitalize).join(' ')
+    else
+      word
+    end
   end
 
   def format_search(word)
