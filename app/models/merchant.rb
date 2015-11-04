@@ -3,11 +3,20 @@ class Merchant < ActiveRecord::Base
   has_many :invoices
   has_many :invoice_items, through: :invoices
   has_many :transactions, through: :invoices
+  has_many :customers, through: :invoices
 
   validates :name, presence: true
 
   def unit_price
     unit_price / 100.00
+  end
+
+  def self.favorite_merchant(cust_id)
+    res = select("merchants.*, count(transactions.id) AS transactions_count")
+    .joins(:transactions) .where("transactions.result" => "success")
+    .joins(:customers) .where("customers.id" => cust_id)
+    .group("merchants.id")
+    .order("transactions_count DESC").limit(1)
   end
 
   def self.most_revenue(num)

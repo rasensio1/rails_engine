@@ -2,11 +2,11 @@ require 'test_helper'
 
 class Api::V1::Customers::BusinessControllerTest < ActionController::TestCase
   test "#favorite_merchant" do
-    create_things
-    get :favorite_merchant, id: 1
+    cust = create_things
+    get :favorite_merchant, id: cust.id
 
     assert_response :success
-    assert_equal "Yeah", json.first["name"]
+    assert_equal "Yo", json["name"]
   end
 
   def create_things
@@ -20,5 +20,6 @@ class Api::V1::Customers::BusinessControllerTest < ActionController::TestCase
     Transaction.create(invoice_id: inv1.id, result: "success")
     Transaction.create(invoice_id: inv2.id, result: "success")
     Transaction.create(invoice_id: inv3.id, result: "success")
+    c1
   end
 end
