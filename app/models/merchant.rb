@@ -10,12 +10,21 @@ class Merchant < ActiveRecord::Base
     unit_price / 100.00
   end
 
-  def self.revenue(id)
+  def self.revenue(id, date)
+    if date
+    InvoiceItem.joins(:invoice)
+                .where("invoices.created_at" => date)
+                .joins(:transactions)
+                .where("transactions.result" => "success")
+                .joins(:merchants).where("merchants.id" => id)
+                .sum("quantity * unit_price") / 100.00
+    else
     InvoiceItem.joins(:invoice)
                 .joins(:transactions)
                 .where("transactions.result" => "success")
                 .joins(:merchants).where("merchants.id" => id)
-                .sum("quantity * unit_price")
+                .sum("quantity * unit_price") / 100.00
+    end
   end
 
   def self.most_revenue(limit)
