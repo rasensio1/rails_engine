@@ -54,11 +54,12 @@ Rails.application.routes.draw do
 
       get "/customers/find_all", to: "customers#find_all"
       get "/customers/find", to: "customers#find"
-      resources :customers, only: [:index, :show]
       namespace :customers do
+        get "/:id/favorite_merchant", to: "business#favorite_merchant"
         get "/:id/invoices", to: "invoices#index"
         get "/:id/transactions", to: "transactions#index"
       end
+      resources :customers, only: [:index, :show]
     end
   end
 
