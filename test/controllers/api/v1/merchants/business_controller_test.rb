@@ -23,6 +23,15 @@ class Api::V1::Merchants::BusinessControllerTest < ActionController::TestCase
     assert_equal 300, json.second["revenue"]
   end
 
+  test "#favorite_customer" do
+    merch = create_merchant_2
+
+    get :favorite_customer, id: merch.id
+
+    assert_response :success
+    assert_equal "John", json["first_name"]
+  end
+
    def create_merchant_1
      m = Merchant.create(name: "First")
      c1 = Customer.create(first_name: "Hi", last_name: "YOYO")
