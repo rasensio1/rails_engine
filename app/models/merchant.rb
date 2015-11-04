@@ -6,6 +6,10 @@ class Merchant < ActiveRecord::Base
 
   validates :name, presence: true
 
+  def unit_price
+    unit_price / 100.00
+  end
+
   def self.revenue(id)
     InvoiceItem.joins(:invoice)
                 .joins(:transactions)
@@ -15,7 +19,7 @@ class Merchant < ActiveRecord::Base
   end
 
   def self.most_revenue(limit)
-    Merchant.joins("transactions")
+    Merchant.joins(:transactions)
   end
 
 
