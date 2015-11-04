@@ -1,23 +1,27 @@
 require 'test_helper'
 
-class MerchantTest < ActiveSupport::TestCase
-   test "is valid" do
-     merch = Merchant.new(name: "Ryan's Cafe")
+class Api::V1::Merchants::BusinessControllerTest < ActionController::TestCase
 
-     assert merch.valid?
-   end
+  test "#revenue" do
+    merch = create_merchant_1
 
-   test "is invalid without a name" do
-     merch = Merchant.new()
+    get :revenue, id: merch.id
 
-     refute merch.valid?
-   end
+    assert_response :success
+    assert_equal "8.0", json["revenue"]
+  end
 
-   test "can get total revenue" do
-     merchant_1 = create_merchant_1
+  test "#most_revenue" do
+    merch = create_merchant_1
+    merch2 = create_merchant_2
+    merch3 = create_merchant_3
 
-     assert_equal 8.0, Merchant.revenue(merchant_1.id)
-   end
+    get :most_revenue, top: 2
+
+    assert_response :success
+    assert_equal 800, json.first["revenue"]
+    assert_equal 300, json.second["revenue"]
+  end
 
    def create_merchant_1
      m = Merchant.create(name: "First")
@@ -39,5 +43,18 @@ class MerchantTest < ActiveSupport::TestCase
      Transaction.create(invoice_id: i3.id, result: "failed")
      m
    end
-   
+
+   def create_merchant_2
+     m = Merchant.create(name: "Another")
+     c = Customer.create(first_name: "John", last_name: "YOYO")
+     i = Invoice.create(customer_id: c.id, merchant_id: m.id)
+     item = Item.create(name: "item", description: "ok", unit_price: 100, merchant_id: m.id)
+     InvoiceItem.create(quantity: 1, unit_price: 300, item_id: item.id, invoice_id: i.id)
+     Transaction.create(invoice_id: i.id, result: "success")
+     m
+   end
+
+   def create_merchant_3
+     Merchant.create(name: "Brian")
+   end
 end
