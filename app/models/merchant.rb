@@ -6,16 +6,11 @@ class Merchant < ActiveRecord::Base
 
   validates :name, presence: true
 
-  def self.successful_invoices(id)
-    Invoice.joins(:merchant).where("merchants.id" => id)
-           .joins(:transactions).where("transactions.result" => "success")
-  end
-
   def self.revenue(id)
-    successful_invoices(id).includes(:invoice_items).reduce(0) do |sum, inv|
-      sum += inv.revenue
-    end
+    InvoiceItem.joins(:invoice)
+                .joins(:transactions)
+                .where("transactions.result" => "success")
+                .joins(:merchants).where("merchants.id" => id)
+                .sum("quantity * unit_price")
   end
-
-
 end
