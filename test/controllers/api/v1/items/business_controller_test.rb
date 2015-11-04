@@ -16,6 +16,13 @@ class Api::V1::Items::BusinessControllerTest < ActionController::TestCase
     assert_response :success
     assert_equal "Yeah", json.first["name"]
   end
+  
+  test "#best_day" do
+    create_items
+    get :best_day, date: "2012-03-16 11:55:05"
+
+    assert_response :success
+  end
 
   def create_items
     m1 = Merchant.create(name: "Yeah")

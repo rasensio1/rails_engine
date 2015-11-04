@@ -21,16 +21,16 @@ class Merchant < ActiveRecord::Base
 
   def self.most_revenue(num)
      select("merchants.*, sum(invoice_items.quantity * invoice_items.unit_price) AS revenue").
+ #    joins(:transactions).where("transactions.result" => "success").
      joins(:invoice_items).
-     joins(:transactions).where("transactions.result" => "success").
      group("merchants.id").
      order("revenue DESC").limit(num)
   end
 
   def self.most_items(num)
      select("merchants.*, count(invoice_items.quantity) AS count").
-     joins(:invoice_items).
      joins(:transactions).where("transactions.result" => "success").
+     joins(:invoice_items).
      group("merchants.id").
      order("count DESC").limit(num)
   end
@@ -61,10 +61,8 @@ class Merchant < ActiveRecord::Base
   end
 
   def self.pending_invoices(id)
-    Customer.joins(:invoices).joins(:transactions)
-            .where("transactions.result" => "failed").distinct
-            .joins(:merchants)
-            .where("merchants.id" => id)
+    failed = Invoice.where(merchant_id:id).joins(:transactions).where("transactions.result" => "failed").to_a
+    failed.map(&:customer).uniq
   end
 
 end
