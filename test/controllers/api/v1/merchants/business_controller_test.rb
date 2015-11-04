@@ -8,7 +8,7 @@ class Api::V1::Merchants::BusinessControllerTest < ActionController::TestCase
     get :revenue, id: merch.id
 
     assert_response :success
-    assert_equal 800, json.first["revenue"]
+    assert_equal "8.0", json["revenue"]
   end
 
   test "#most_revenue" do

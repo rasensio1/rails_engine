@@ -10,7 +10,7 @@ class Merchant < ActiveRecord::Base
     unit_price / 100.00
   end
 
-  def self.revenue(id, date)
+  def self.revenue(id, date = nil)
     if date
     InvoiceItem.joins(:invoice)
                 .where("invoices.created_at" => date)

@@ -16,7 +16,7 @@ class MerchantTest < ActiveSupport::TestCase
    test "can get total revenue" do
      merchant_1 = create_merchant_1
 
-     assert_equal 800, Merchant.revenue(merchant_1.id)
+     assert_equal 8.0, Merchant.revenue(merchant_1.id)
    end
 
    def create_merchant_1
