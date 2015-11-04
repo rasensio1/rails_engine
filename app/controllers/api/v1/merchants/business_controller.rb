@@ -20,8 +20,8 @@ class Api::V1::Merchants::BusinessController < ApplicationController
   end
 
 
-  def customers_with_pending_invoices
-    respond_with Merchant.customers_with_pending_invoices(params[:id])
+  def pending_invoices
+    respond_with Merchant.pending_invoices(params[:id])
   end
 
   private 

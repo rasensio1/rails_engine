@@ -52,12 +52,11 @@ class Merchant < ActiveRecord::Base
                 .sum("quantity * unit_price") / 100.00
   end
 
-  def self.customers_with_pending_invoices(id)
-    res = Customer.joins(:invoices).joins(:transactions)
+  def self.pending_invoices(id)
+    Customer.joins(:invoices).joins(:transactions).distinct
             .where("transactions.result" => "failed")
             .joins(:merchants)
             .where("merchants.id" => id)
-            .uniq
      
   end
 

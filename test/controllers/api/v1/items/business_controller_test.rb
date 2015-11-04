@@ -6,7 +6,7 @@ class Api::V1::Items::BusinessControllerTest < ActionController::TestCase
     get :most_revenue, quantity: 1
 
     assert_response :success
-    assert_equal "YO", json.first["name"]
+    assert_equal "Yeah", json.first["name"]
   end
 
   test "#most_items" do
