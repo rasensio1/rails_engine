@@ -27,6 +27,14 @@ class Merchant < ActiveRecord::Base
      order("revenue DESC").limit(num)
   end
 
+  def self.most_items(num)
+     select("merchants.*, count(invoice_items.quantity) AS count").
+     joins(:invoice_items).
+     joins(:transactions).where("transactions.result" => "success").
+     group("merchants.id").
+     order("count DESC").limit(num)
+  end
+
   def self.revenue(id, date = nil)
     if date
     InvoiceItem.joins(:invoice)
@@ -53,11 +61,10 @@ class Merchant < ActiveRecord::Base
   end
 
   def self.pending_invoices(id)
-    Customer.joins(:invoices).joins(:transactions).distinct
-            .where("transactions.result" => "failed")
+    Customer.joins(:invoices).joins(:transactions)
+            .where("transactions.result" => "failed").distinct
             .joins(:merchants)
             .where("merchants.id" => id)
-     
   end
 
 end
