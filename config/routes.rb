@@ -7,12 +7,12 @@ Rails.application.routes.draw do
       get "/merchants/find", to: "merchants#find"
       namespace :merchants do
         get "/revenue", to: "business#revenue_date"
+        get "/most_revenue", to: "business#most_revenue"
         get "/:id/items", to: "items#index"
         get "/:id/invoices", to: "invoices#index"
         get "/:id/revenue", to: "business#revenue"
         get "/:id/customers_with_pending_invoices", 
           to: "business#customers_with_pending_invoices"
-        get "/most_revenue", to: "business#most_revenue"
       end
       resources :merchants, only: [:index, :show]
 
@@ -22,6 +22,7 @@ Rails.application.routes.draw do
       namespace :items do
         get "/:id/invoice_items", to: "invoice_items#index"
         get "/:id/merchant", to: "merchant#show"
+        get "most_revenue", to: "business#most_revenue"
       end
 
       get "/invoice_items/find_all", to: "invoice_items#find_all"

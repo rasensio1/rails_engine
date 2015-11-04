@@ -9,8 +9,12 @@ class Item < ActiveRecord::Base
     unit_price / 100.00
   end
 
-#  def as_json(options = {})
-#     super(options.merge except: [:unit_price], methods: [:price])
-#  end
+  def self.most_revenue
+    #filter for successful transactions
+     select("items.*, sum(invoice_items.quantity * invoice_items.unit_price) AS revenue").
+     joins(:invoice_items).
+     group("items.id").
+     order("revenue DESC").limit(1)
+  end
 end
 

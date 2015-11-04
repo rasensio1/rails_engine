@@ -10,6 +10,14 @@ class Merchant < ActiveRecord::Base
     unit_price / 100.00
   end
 
+  def self.most_revenue(num)
+     select("merchants.*, sum(invoice_items.quantity * invoice_items.unit_price) AS revenue").
+     joins(:invoice_items).
+     joins(:transactions).where("transactions.result" => "success").
+     group("merchants.id").
+     order("revenue DESC").limit(num)
+  end
+
   def self.revenue(id, date = nil)
     if date
     InvoiceItem.joins(:invoice)

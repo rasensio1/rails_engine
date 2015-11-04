@@ -16,7 +16,7 @@ class Api::V1::Merchants::BusinessControllerTest < ActionController::TestCase
     merch2 = create_merchant_2
     merch3 = create_merchant_3
 
-    get :most_revenue, top: 2
+    get :most_revenue, quantity: 2
 
     assert_response :success
     assert_equal 800, json.first["revenue"]
