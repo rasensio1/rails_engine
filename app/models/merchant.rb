@@ -27,9 +27,21 @@ class Merchant < ActiveRecord::Base
     end
   end
 
-  def self.most_revenue(limit)
-    Merchant.joins(:transactions)
+  def self.revenue_date(date)
+    InvoiceItem.joins(:invoice)
+                .where("invoices.created_at" => date)
+                .joins(:transactions)
+                .where("transactions.result" => "success")
+                .sum("quantity * unit_price") / 100.00
   end
 
+  def self.customers_with_pending_invoices(id)
+    res = Customer.joins(:invoices).joins(:transactions)
+            .where("transactions.result" => "failed")
+            .joins(:merchants)
+            .where("merchants.id" => id)
+            .uniq
+     
+  end
 
 end

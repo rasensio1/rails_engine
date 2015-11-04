@@ -13,6 +13,16 @@ class MerchantTest < ActiveSupport::TestCase
      refute merch.valid?
    end
 
+   test "can get customers with pending invoices" do
+     merch = create_merchant_1
+
+     custs = Merchant.customers_with_pending_invoices(merch.id)
+
+     assert_equal 1, custs.count 
+     assert_equal "Hi", custs.first.first_name
+   end
+
+
    test "can get total revenue" do
      merchant_1 = create_merchant_1
 
