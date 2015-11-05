@@ -15,7 +15,7 @@ class Api::V1::Merchants::BusinessController < ApplicationController
   end
 
   def most_items
-    respond_with Merchant.most_items(params[:quantity])
+    respond_with Merchant.most_items(params[:quantity].to_i)
   end
 
   def revenue_date

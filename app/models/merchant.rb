@@ -28,12 +28,17 @@ class Merchant < ActiveRecord::Base
   end
 
   def self.most_items(num)
-     select("merchants.*, count(invoice_items.quantity) AS count").
-     joins(:transactions).where("transactions.result" => "success").
-     joins(:invoice_items).
-     group("merchants.id").
-     order("count DESC").limit(num)
+    sorted = items_for_merchants.sort_by { |k,v| v }.reverse.first(num)
+    sorted.map do |id, items|
+      Merchant.find(id)
+    end
   end
+
+  def self.items_for_merchants
+    InvoiceItem.successful.group(:merchant_id).sum("quantity")
+  end
+
+
 
   def self.revenue(id, date = nil)
     if date
