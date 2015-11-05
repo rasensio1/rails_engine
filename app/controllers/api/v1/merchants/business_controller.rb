@@ -22,7 +22,6 @@ class Api::V1::Merchants::BusinessController < ApplicationController
     respond_with({:total_revenue => Merchant.revenue_date(date).to_s })
   end
 
-
   def pending_invoices
     respond_with Merchant.pending_invoices(params[:id])
   end

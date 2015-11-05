@@ -7,10 +7,6 @@ class Merchant < ActiveRecord::Base
 
   validates :name, presence: true
 
-  def unit_price
-    unit_price / 100.00
-  end
-
   def self.favorite_merchant(cust_id)
     res = select("merchants.*, count(transactions.id) AS transactions_count")
     .joins(:transactions) .where("transactions.result" => "success")
@@ -63,7 +59,9 @@ class Merchant < ActiveRecord::Base
   end
 
   def self.pending_invoices(id)
-    failed = Invoice.where(merchant_id:id).joins(:transactions).where("transactions.result" => "failed").to_a
+    failed = Invoice.where(merchant_id:id)
+                    .joins(:transactions)
+                    .where("transactions.result" => "failed").to_a
     failed.map(&:customer).uniq
   end
 
