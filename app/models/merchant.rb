@@ -23,13 +23,17 @@ class Merchant < ActiveRecord::Base
   end
 
   def self.most_items(num)
-    sorted = items_for_merchants.sort_by { |k,v| v }.reverse.first(num)
+    sorted = inv_items_for_merchants.sort_by { |k,v| v }.reverse.first(num)
     sorted.map do |id, items|
       Merchant.find(id)
     end
   end
 
-  def self.items_for_merchants
+  def self.items(id)
+    joins(:items).where("items.id" => id).first
+  end
+
+  def self.inv_items_for_merchants
     InvoiceItem.successful.group(:merchant_id).sum("quantity")
   end
 
