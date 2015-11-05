@@ -6,7 +6,7 @@ require 'simplecov'
 class ActiveSupport::TestCase
   # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
   DatabaseCleaner.strategy = :transaction
-  SimpleCov.start
+  SimpleCov.start('rails')
 
   def setup
     DatabaseCleaner.start
