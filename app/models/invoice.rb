@@ -10,6 +10,10 @@ class Invoice < ActiveRecord::Base
 
   scope :successful, -> { joins(:transactions).where("transactions.result" => "success") }
 
+  def self.for_transaction(id)
+    joins(:transactions).where("transactions.id" => id).first
+  end
+
   def revenue
     invoice_items.reduce(0) do |agg, i_item|
       agg += i_item.unit_price * i_item.quantity
