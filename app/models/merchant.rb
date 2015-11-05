@@ -8,7 +8,7 @@ class Merchant < ActiveRecord::Base
   validates :name, presence: true
 
   def self.favorite_merchant(cust_id)
-    res = select("merchants.*, count(transactions.id) AS transactions_count")
+    select("merchants.*, count(transactions.id) AS transactions_count")
     .joins(:transactions) .where("transactions.result" => "success")
     .joins(:customers) .where("customers.id" => cust_id)
     .group("merchants.id")
@@ -19,14 +19,14 @@ class Merchant < ActiveRecord::Base
      select("merchants.*, sum(invoice_items.quantity * invoice_items.unit_price) AS revenue").
      joins(:invoice_items).
      group("merchants.id").
-     order("revenue DESC").limit(num)
+     order("revenue DESC").limit(num).merge(InvoiceItem.successful)
   end
 
   def self.most_items(num)
-    sorted = inv_items_for_merchants.sort_by { |k,v| v }.reverse.first(num)
-    sorted.map do |id, items|
-      Merchant.find(id)
-    end
+     select("merchants.*, sum(invoice_items.quantity) AS totals").
+     joins(:invoice_items).
+     group("merchants.id").
+     order("totals DESC").limit(num).merge(InvoiceItem.successful)
   end
 
   def self.items(id)
