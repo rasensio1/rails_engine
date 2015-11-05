@@ -1,17 +1,19 @@
 class Invoice < ActiveRecord::Base
+  validates :customer_id, :merchant_id, presence: true
+
   belongs_to :customer
   belongs_to :merchant
-
   has_many :transactions
   has_many :invoice_items
   has_many :items, through: :invoice_items
-
-  validates :customer_id, :merchant_id, presence: true
-
   scope :successful, -> { joins(:transactions).where("transactions.result" => "success") }
 
   def self.for_transaction(id)
     joins(:transactions).where("transactions.id" => id).first
+  end
+
+  def self.for_invoice_item(id)
+    joins(:invoice_items).where("invoice_items.id" => id ).first
   end
 
   def revenue
