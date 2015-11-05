@@ -12,4 +12,8 @@ class Customer < ActiveRecord::Base
     .group("customers.id")
     .order("transactions_count DESC").limit(1)
   end
+
+  def self.for_invoice(id)
+    joins(:invoices).where("invoices.id" => id ).first
+  end
 end
