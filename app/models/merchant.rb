@@ -58,7 +58,7 @@ class Merchant < ActiveRecord::Base
 
   def self.pending_invoices(id)
     Customer.joins(:invoices)
-            .where("invoices.merchant_id" => id).
-            distinct.merge(Invoice.unsuccessful)
+            .where("invoices.merchant_id" => id)
+            .distinct.merge(Invoice.unsuccessful)
   end
 end
