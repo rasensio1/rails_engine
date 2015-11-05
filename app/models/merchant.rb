@@ -21,7 +21,6 @@ class Merchant < ActiveRecord::Base
 
   def self.most_revenue(num)
      select("merchants.*, sum(invoice_items.quantity * invoice_items.unit_price) AS revenue").
- #    joins(:transactions).where("transactions.result" => "success").
      joins(:invoice_items).
      group("merchants.id").
      order("revenue DESC").limit(num)
@@ -37,8 +36,6 @@ class Merchant < ActiveRecord::Base
   def self.items_for_merchants
     InvoiceItem.successful.group(:merchant_id).sum("quantity")
   end
-
-
 
   def self.revenue(id, date = nil)
     if date

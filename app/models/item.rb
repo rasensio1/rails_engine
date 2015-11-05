@@ -21,14 +21,6 @@ class Item < ActiveRecord::Base
     order("sold_count DESC").limit(quantity)
   end
 
- # def self.best_day(id, date)
- #   where(id: id)
- #   .select("invoice_items.*, sum(invoice_items.quantity * invoice_items.unit_price) AS revenue")
- #   .joins(:invoice_items)
- #   .group("invoice_items.id")
- #   .order("revenue DESC").limit(1)
- # end
-
   def self.best_day(id)
     InvoiceItem.successful.where(item_id: id)
     .group("invoices.created_at")

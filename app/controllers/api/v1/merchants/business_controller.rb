@@ -19,8 +19,7 @@ class Api::V1::Merchants::BusinessController < ApplicationController
   end
 
   def revenue_date
-    revenue = {:total_revenue => Merchant.revenue_date(date).to_s }
-    respond_with revenue
+    respond_with({:total_revenue => Merchant.revenue_date(date).to_s })
   end
 
 
