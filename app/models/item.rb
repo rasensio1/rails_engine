@@ -11,7 +11,7 @@ class Item < ActiveRecord::Base
     select("items.*, sum(invoice_items.quantity * invoice_items.unit_price) AS revenue").
     joins(:invoice_items).
     group("items.id").
-    order("revenue DESC").limit(quantity)
+    order("revenue DESC").limit(quantity).merge(InvoiceItem.successful)
   end
 
   def self.most_items(quantity)
