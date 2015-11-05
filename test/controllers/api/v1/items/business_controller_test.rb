@@ -18,8 +18,8 @@ class Api::V1::Items::BusinessControllerTest < ActionController::TestCase
   end
   
   test "#best_day" do
-    create_items
-    get :best_day, date: "2012-03-16 11:55:05"
+    i1 = create_items
+    get :best_day, id: i1.id, date: "2012-03-16 11:55:05"
 
     assert_response :success
   end
@@ -39,6 +39,7 @@ class Api::V1::Items::BusinessControllerTest < ActionController::TestCase
     InvoiceItem.create(quantity: 3, unit_price: 2, item_id: i2.id, invoice_id: inv1.id)
     Transaction.create(invoice_id: inv2.id, result: "failure")
     Transaction.create(invoice_id: inv1.id, result: "success")
+    i1
   end
 
   def create_items_2
