@@ -51,10 +51,8 @@ class Merchant < ActiveRecord::Base
   end
 
   def self.revenue_date(date)
-    InvoiceItem.joins(:invoice)
+    InvoiceItem.successful.joins(:invoice)
                 .where("invoices.created_at" => date)
-                .joins(:transactions)
-                .where("transactions.result" => "success")
                 .sum("quantity * unit_price") / 100.00
   end
 
