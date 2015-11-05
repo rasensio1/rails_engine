@@ -59,10 +59,9 @@ class Merchant < ActiveRecord::Base
   end
 
   def self.pending_invoices(id)
-    failed = Invoice.where(merchant_id:id)
+    Invoice.where(merchant_id:id)
                     .joins(:transactions)
-                    .where("transactions.result" => "failed").to_a
-    failed.map(&:customer).uniq
+                    .where("transactions.result" => "failed")
+                    .to_a.map(&:customer).uniq
   end
-
 end
