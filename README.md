@@ -1,5 +1,3 @@
-== README
-
 ##Rails Engine
 
 ####Purpose
